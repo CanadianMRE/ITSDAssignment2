@@ -1,16 +1,14 @@
 package utilities;
-
-import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 public class MyStack<E> implements StackADT<E> {
    
 	private static final long serialVersionUID = 1L;
-	private ArrayList<E> stackList;
+	private MyArrayList<E> stackList;
 
     public MyStack() {
-    	stackList = new ArrayList<>();
+    	stackList = new MyArrayList<>();
     }
 
     @Override

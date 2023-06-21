@@ -1,19 +1,15 @@
 package utilities;
-
-import exceptions.EmptyQueueException;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+import exceptions.EmptyQueueException;
 
 public class MyQueue<E> implements QueueADT<E> {
   
 	private static final long serialVersionUID = 1L;
-	private ArrayList<E> elements;
+	
+	private MyDLL<E> queueList;
 
     public MyQueue() {
-        elements = new ArrayList<>();
+    	queueList = new MyDLL<E>();
     }
     
     @Override
@@ -21,7 +17,7 @@ public class MyQueue<E> implements QueueADT<E> {
         if (toAdd == null) {
             throw new NullPointerException();
         }
-        elements.add(toAdd);
+        queueList.add(toAdd);
     }
 	
 	
@@ -30,7 +26,7 @@ public class MyQueue<E> implements QueueADT<E> {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }
-        return elements.remove(0);
+        return queueList.remove(0);
     }
 
 	
@@ -39,19 +35,19 @@ public class MyQueue<E> implements QueueADT<E> {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }
-        return elements.get(0);
+        return queueList.get(0);
     }
 	
 	
     @Override
     public void dequeueAll() {
-        elements.clear();
+    	queueList.clear();
     }
 	
 	
     @Override
     public boolean isEmpty() {
-        return elements.isEmpty();
+        return queueList.isEmpty();
     }
 
 	
@@ -70,19 +66,19 @@ public class MyQueue<E> implements QueueADT<E> {
             return false;
         }
         MyQueue<E> otherQueue = (MyQueue<E>) that;
-        return elements.equals(otherQueue.elements);
+        return queueList.equals(otherQueue.queueList);
     }
 	
 	
     @Override
     public Object[] toArray() {
-        return elements.toArray();
+        return queueList.toArray();
     }
 
 	
     @Override
     public E[] toArray(E[] holder) throws NullPointerException {
-        return elements.toArray(holder);
+        return queueList.toArray(holder);
     }
 	
     @Override
@@ -93,7 +89,7 @@ public class MyQueue<E> implements QueueADT<E> {
 	
     @Override
     public int size() {
-        return elements.size();
+        return queueList.size();
     }
     
     private class MyQueueIterator implements utilities.Iterator<E> {
@@ -101,7 +97,7 @@ public class MyQueue<E> implements QueueADT<E> {
 
         @Override
         public boolean hasNext() {
-            return currentIndex < elements.size();
+            return currentIndex < queueList.size();
         }
 
         @Override
@@ -109,7 +105,7 @@ public class MyQueue<E> implements QueueADT<E> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            return elements.get(currentIndex++);
+            return queueList.get(currentIndex++);
         }
     }
     

@@ -1,7 +1,8 @@
 package utilities;
 
+import java.io.Serializable;
+
 import exceptions.EmptyQueueException;
-import java.io.*;
 
 /**
  * This is the professional Queue Interface for Advanced Object 
