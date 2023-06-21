@@ -164,9 +164,10 @@ import utilities.MyArrayList;
 	    public void testToArrayWithNullArray() {
 	        arrayTest.toArray(null);
 	    }
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+	    
+	    @Test
+	    public void testAddAll() {
+	    	
+	    }
 
 }

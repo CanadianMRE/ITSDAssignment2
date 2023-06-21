@@ -2,6 +2,7 @@ package utilities;
 import java.util.NoSuchElementException;
 import exceptions.EmptyQueueException;
 
+
 public class MyQueue<E> implements QueueADT<E> {
   
 	private static final long serialVersionUID = 1L;
@@ -38,25 +39,16 @@ public class MyQueue<E> implements QueueADT<E> {
         return queueList.get(0);
     }
 	
-	
     @Override
     public void dequeueAll() {
     	queueList.clear();
     }
-	
 	
     @Override
     public boolean isEmpty() {
         return queueList.isEmpty();
     }
 
-	
-	
-    @Override
-    public utilities.Iterator<E> iterator() {
-        return new MyQueueIterator();
-    }
-	
     @Override
     public boolean equals(QueueADT<E> that) {
         if (this == that) {
@@ -69,13 +61,11 @@ public class MyQueue<E> implements QueueADT<E> {
         return queueList.equals(otherQueue.queueList);
     }
 	
-	
     @Override
     public Object[] toArray() {
         return queueList.toArray();
     }
 
-	
     @Override
     public E[] toArray(E[] holder) throws NullPointerException {
         return queueList.toArray(holder);
@@ -83,16 +73,20 @@ public class MyQueue<E> implements QueueADT<E> {
 	
     @Override
     public boolean isFull() {
-        return false; // Assuming the queue is never full
+        return false; 
     }
-	
 	
     @Override
     public int size() {
         return queueList.size();
     }
     
-    private class MyQueueIterator implements utilities.Iterator<E> {
+    @Override
+    public Iterator<E> iterator() {
+        return new MyQueueIterator();
+    }
+    
+    private class MyQueueIterator implements Iterator<E> {
         private int currentIndex = 0;
 
         @Override

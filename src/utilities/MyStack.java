@@ -82,8 +82,6 @@ public class MyStack<E> implements StackADT<E> {
         return new MyStackIterator();
     }
 
-
-	
     @Override
     public boolean equals(StackADT<E> that) {
         if (this == that) {
