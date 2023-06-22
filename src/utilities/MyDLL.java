@@ -265,7 +265,7 @@ public class MyDLL<E> implements ListADT<E> {
         @Override
         public boolean hasNext() {
             return currentIndex <= size() - 1;
-        }
+        } 
 
         @Override
         public E next() throws NoSuchElementException {
