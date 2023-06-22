@@ -2,23 +2,40 @@ package utilities;
 
 import java.util.NoSuchElementException;
 import exceptions.EmptyQueueException;
+import exceptions.exceedQueueSizeException;
 
 public class MyQueue<E> implements QueueADT<E> {
 
 	private static final long serialVersionUID = 1L;
 
 	private MyDLL<E> queueList;
+	private boolean adjustable;
+	private int maxSize;
 
 	public MyQueue() {
 		queueList = new MyDLL<E>();
+		adjustable = true;
+	}
+	
+	public MyQueue (int maxSize) {
+		queueList = new MyDLL<E>();
+		adjustable = false;
+		this.maxSize = maxSize;
 	}
 
 	@Override
-	public void enqueue(E toAdd) throws NullPointerException {
+	public void enqueue(E toAdd) throws NullPointerException,exceedQueueSizeException {
 		if (toAdd == null) {
 			throw new NullPointerException();
 		}
-		queueList.add(toAdd);
+		System.out.println(maxSize);
+		if(adjustable) {
+			queueList.add(toAdd);
+		}else if(maxSize>this.size()) {
+			queueList.add(toAdd);
+		}else{
+			throw new exceedQueueSizeException();
+		}
 	}
 
 	@Override
@@ -49,14 +66,29 @@ public class MyQueue<E> implements QueueADT<E> {
 
 	@Override
 	public boolean equals(QueueADT<E> that) {
+		
 		if (this == that) {
 			return true;
 		}
 		if (that == null || !(that instanceof MyQueue)) {
 			return false;
 		}
-		MyQueue<E> otherQueue = (MyQueue<E>) that;
-		return queueList.equals(otherQueue.queueList);
+		if(this.size()!=that.size()) {
+			return false;
+		}
+		
+		Iterator<E> it = this.iterator();
+		Iterator<E> that1 = that.iterator();
+		
+		while(it.hasNext()&&that1.hasNext()) {
+			E test = it.next();
+			E test1 = that1.next();
+			if(!test.equals(test1)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -71,6 +103,12 @@ public class MyQueue<E> implements QueueADT<E> {
 
 	@Override
 	public boolean isFull() {
+	
+		
+		
+		if(maxSize<=this.size()) {
+			return true;
+		}
 		return false;
 	}
 
