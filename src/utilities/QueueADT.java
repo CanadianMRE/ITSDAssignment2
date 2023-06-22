@@ -17,6 +17,7 @@ import exceptions.EmptyQueueException;
  * 
  * Queue.java
  * @author Don Heninger & Dave Watson
+ * 
  */
 public interface QueueADT<E> extends Serializable
 {
