@@ -3,7 +3,6 @@ package utilities;
 import java.io.Serializable;
 import java.util.EmptyStackException;
 
-<<<<<<< HEAD
 /**
  * This Stacks incorporates all the standard Stack operations, including methods to help flexibility and usage
  * 
@@ -13,13 +12,9 @@ import java.util.EmptyStackException;
  * @version 1.0
  */
 
-public interface MyStackADT<E> extends Serializable
-{
-=======
-public interface MyStackADT<E> extends Serializable {
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 
-<<<<<<< HEAD
+public interface MyStackADT<E> extends Serializable {
+
 	/**
 	 * Appends an item on the stack
 	 * @param toAdd
@@ -38,9 +33,6 @@ public interface MyStackADT<E> extends Serializable {
 	 * @throws EmptyStackException
 	 * -thrown when the is nothing to remove
 	 */
-=======
-	public void push(E toAdd) throws NullPointerException;
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 
 	public E pop() throws EmptyStackException;
 	
@@ -61,7 +53,7 @@ public interface MyStackADT<E> extends Serializable {
 	 */
 
 	public void clear();
-<<<<<<< HEAD
+
 	
 	
 	/**
@@ -69,10 +61,7 @@ public interface MyStackADT<E> extends Serializable {
 	 * @return
 	 * -returns true if stack is empty
 	 */
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 	public boolean isEmpty();
 	
 	
@@ -88,14 +77,12 @@ public interface MyStackADT<E> extends Serializable {
 	/**
 	 * Designates an array for the stack elements to be stored
 	 * @param holder
-	 * -asseses if array is large enough, if it isn't it creates a new array of same runtime type
+	 * -Assesses if array is large enough, if it isn't it creates a new array of same runtime type
 	 * @return
 	 * -an array with the stack elements
 	 * @throws NullPointerException
 	 * -thrown when array is null
 	 */
-
-<<<<<<< HEAD
 	
 	public E[] toArray( E[] holder ) throws NullPointerException;
 	
@@ -110,11 +97,7 @@ public interface MyStackADT<E> extends Serializable {
 	 * @throws NullPointerException
 	 * -thrown if the element searched for is null
 	 */
-=======
-	public E[] toArray(E[] holder) throws NullPointerException;
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 
-<<<<<<< HEAD
 	public boolean contains( E toFind ) throws NullPointerException;
 	
 	
@@ -137,11 +120,6 @@ public interface MyStackADT<E> extends Serializable {
 	 * @return
 	 * -an iterator through the elements of the stack in sequence.
 	 */
-=======
-	public boolean contains(E toFind) throws NullPointerException;
-
-	public int search(E toFind);
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 
 	public Iterator<E> iterator();
 	
@@ -155,7 +133,6 @@ public interface MyStackADT<E> extends Serializable {
 	 * -true if the stacks are equal.
 	 */
 
-<<<<<<< HEAD
 	public boolean equals( StackADT<E> that );
 	
 	
@@ -165,10 +142,6 @@ public interface MyStackADT<E> extends Serializable {
 	 * @return
 	 * -size of the stack as an integer
 	 */
-	
-=======
-	public boolean equals(StackADT<E> that);
 
->>>>>>> branch 'master' of https://github.com/CanadianMRE/ITSDAssignment2.git
 	public int size();
 }
