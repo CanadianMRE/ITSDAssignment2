@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -164,9 +166,38 @@ import utilities.MyArrayList;
 	    public void testToArrayWithNullArray() {
 	        arrayTest.toArray(null);
 	    }
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+	    
+	    @Test
+	    public void testToArrayWithSmallArray() {
+	        arrayTest.add("A");
+	        arrayTest.add("B");
+	        arrayTest.add("C");
+	        arrayTest.add("D");
+	        
+	        String[] array = new String[2]; 
+	        Object[] result = arrayTest.toArray(array);
+
+	        assertArrayEquals(new String[]{"A", "B", "C", "D"}, result);
+	    }
+	    
+	    @Test
+	    public void testAddAll() {
+	    	MyArrayList array2 = new MyArrayList();
+
+	    	array2.add("A");
+	    	array2.add("B");
+	    	array2.add("C");
+	    	
+	        arrayTest.addAll(array2);
+
+	        assertEquals("A", arrayTest.get(0));
+	        assertEquals("B", arrayTest.get(1));
+	        assertEquals("C", arrayTest.get(2));
+	    }
+	    
+	    @Test
+	    public void testBreakAddAll() {
+	    	
+	    }
 
 }
