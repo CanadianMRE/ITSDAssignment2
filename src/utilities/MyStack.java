@@ -1,14 +1,18 @@
 package utilities;
+
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 public class MyStack<E> implements StackADT<E> {
-   
+
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private MyArrayList<E> stackList;
 
     public MyStack() {
-    	stackList = new MyArrayList<>();
+        stackList = new MyArrayList<>();
     }
 
     @Override
@@ -19,7 +23,6 @@ public class MyStack<E> implements StackADT<E> {
         stackList.add(toAdd);
     }
 
-	
     @Override
     public E pop() throws EmptyStackException {
         if (isEmpty()) {
@@ -27,6 +30,7 @@ public class MyStack<E> implements StackADT<E> {
         }
         return stackList.remove(stackList.size() - 1);
     }
+
     @Override
     public E peek() throws EmptyStackException {
         if (isEmpty()) {
@@ -34,9 +38,10 @@ public class MyStack<E> implements StackADT<E> {
         }
         return stackList.get(stackList.size() - 1);
     }
+
     @Override
     public void clear() {
-    	stackList.clear();
+        stackList.clear();
     }
 
     @Override
@@ -44,19 +49,29 @@ public class MyStack<E> implements StackADT<E> {
         return stackList.isEmpty();
     }
 
-	
     @Override
     public Object[] toArray() {
         return stackList.toArray();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public E[] toArray(E[] holder) throws NullPointerException {
-        return stackList.toArray(holder);
+        if (holder == null) {
+            throw new NullPointerException();
+        }
+        if (holder.length < stackList.size()) {
+            holder = (E[]) new Object[stackList.size()];
+        }
+        for (int i = 0; i < stackList.size(); i++) {
+            holder[i] = stackList.get(stackList.size() - 1 - i);
+        }
+        if (holder.length > stackList.size()) {
+            holder[stackList.size()] = null;
+        }
+        return holder;
     }
 
-
-	
     @Override
     public boolean contains(E toFind) throws NullPointerException {
         if (toFind == null) {
@@ -65,7 +80,6 @@ public class MyStack<E> implements StackADT<E> {
         return stackList.contains(toFind);
     }
 
-	
     @Override
     public int search(E toFind) {
         for (int i = stackList.size() - 1; i >= 0; i--) {
@@ -76,7 +90,6 @@ public class MyStack<E> implements StackADT<E> {
         return -1;
     }
 
-	
     @Override
     public Iterator<E> iterator() {
         return new MyStackIterator();
@@ -91,14 +104,26 @@ public class MyStack<E> implements StackADT<E> {
             return false;
         }
         MyStack<E> otherStack = (MyStack<E>) that;
-        return stackList.equals(otherStack.stackList);
+        if (stackList.size() != otherStack.stackList.size()) {
+            return false;
+        }
+        Iterator<E> thisIterator = iterator();
+        Iterator<E> otherIterator = otherStack.iterator();
+        while (thisIterator.hasNext() && otherIterator.hasNext()) {
+            E thisElement = thisIterator.next();
+            E otherElement = otherIterator.next();
+            if (!thisElement.equals(otherElement)) {
+                return false;
+            }
+        }
+        return true;
     }
-	
+    
     @Override
     public int size() {
         return stackList.size();
     }
-    
+
     private class MyStackIterator implements Iterator<E> {
         private int currentIndex = stackList.size() - 1;
 

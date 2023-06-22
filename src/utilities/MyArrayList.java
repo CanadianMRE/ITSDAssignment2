@@ -1,6 +1,5 @@
 package utilities;
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class MyArrayList<E> implements ListADT<E> {
@@ -74,10 +73,14 @@ public class MyArrayList<E> implements ListADT<E> {
 		@SuppressWarnings("unchecked")
 		Iterator<E> iterator = (Iterator<E>) toAdd.iterator();
 		 
-        // while loop
+		System.out.println("Starting iter");
+		
         while (iterator.hasNext()) {
-        	this.add(iterator.next());
+        	E next = iterator.next();
+        	System.out.println(next);
+        	this.add(next);
         }
+		System.out.println("done iter");
 		
 		return true;
 	}
@@ -188,11 +191,11 @@ public class MyArrayList<E> implements ListADT<E> {
 	}
 	
 	private class MyArrayListIterator implements Iterator<E> {
-        private int currentIndex = -1;
+        private int currentIndex = 0;
 
         @Override
         public boolean hasNext() {
-            return currentIndex < size();
+            return currentIndex <= size() - 1;
         }
 
         @Override
@@ -201,7 +204,9 @@ public class MyArrayList<E> implements ListADT<E> {
                 throw new NoSuchElementException();
             }
             
-            return get(currentIndex++);
+            currentIndex++;       
+            
+            return get(currentIndex - 1);
         }
     }
 
