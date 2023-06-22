@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -195,8 +197,11 @@ import utilities.MyArrayList;
 	        assertEquals("C", arrayTest.get(2));
 	    }
 	    
-	    @Test
+	    @Test(expected = NoSuchElementException.class)
 	    public void testBreakAddAll() {
+	    	utilities.Iterator<String> iter = arrayTest.iterator();
+	    	
+	    	iter.next();
 	    	
 	    }
 
