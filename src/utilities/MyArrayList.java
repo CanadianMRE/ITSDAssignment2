@@ -8,10 +8,10 @@ public class MyArrayList<E> implements ListADT<E> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private E[] elements;
 	private int size;
-	
+
 	@SuppressWarnings("unchecked")
 	public MyArrayList() {
 		elements = (E[]) new Object[0];
@@ -33,14 +33,14 @@ public class MyArrayList<E> implements ListADT<E> {
 
 	@Override
 	public boolean add(int index, E toAdd) throws NullPointerException, IndexOutOfBoundsException {
-		
+
 		if (index > this.size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		E[] newArray = (E[]) new Object[this.elements.length + 1];
-		
+
 		Boolean inserted = false;
 		for (int i = 0; i < this.size() + 1; i++) {
 			if (i == index) {
@@ -54,12 +54,11 @@ public class MyArrayList<E> implements ListADT<E> {
 				this.elements[i] = null;
 			}
 		}
-		
+
 		size++;
-		
+
 		elements = newArray;
-		
-		
+
 		return true;
 	}
 
@@ -72,33 +71,34 @@ public class MyArrayList<E> implements ListADT<E> {
 	public boolean addAll(ListADT<? extends E> toAdd) throws NullPointerException {
 		@SuppressWarnings("unchecked")
 		Iterator<E> iterator = (Iterator<E>) toAdd.iterator();
-		
-        while (iterator.hasNext()) {
-        	E next = iterator.next();
-        	this.add(next);
-        }
-		
+
+		while (iterator.hasNext()) {
+			E next = iterator.next();
+			this.add(next);
+		}
+		System.out.println("done iter");
+
 		return true;
 	}
 
 	@Override
-	public E get(int index) throws IndexOutOfBoundsException { 
+	public E get(int index) throws IndexOutOfBoundsException {
 		return elements[index];
 	}
 
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
-		
+
 		int newIndex = this.elements.length - 1;
-		
+
 		if (newIndex < 0) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		E[] newArray = (E[]) new Object[newIndex];
 		E old = elements[index];
-		
+
 		Boolean removed = false;
 		for (int i = 0; i < this.size(); i++) {
 			if (i == index) {
@@ -112,22 +112,22 @@ public class MyArrayList<E> implements ListADT<E> {
 				this.elements[i] = null;
 			}
 		}
-		
+
 		elements = newArray;
-		
+
 		size--;
-		
+
 		return old;
 	}
 
 	@Override
 	public E remove(E toRemove) throws NullPointerException {
-		for ( int i=0 ; i< this.size() ; i++) {
+		for (int i = 0; i < this.size(); i++) {
 			if (toRemove.equals(this.get(i))) {
 				return this.remove(i);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -136,11 +136,11 @@ public class MyArrayList<E> implements ListADT<E> {
 		if (index >= this.size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		E old = this.get(index);
-		
+
 		elements[index] = toChange;
-		
+
 		return old;
 	}
 
@@ -151,23 +151,23 @@ public class MyArrayList<E> implements ListADT<E> {
 
 	@Override
 	public boolean contains(E toFind) throws NullPointerException {
-		for ( int i=0 ; i< this.size() ; i++) {
+		for (int i = 0; i < this.size(); i++) {
 			if (toFind.equals(this.get(i))) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
 	@Override
-	public E[] toArray(E[] toHold) throws NullPointerException {		
+	public E[] toArray(E[] toHold) throws NullPointerException {
 		if (toHold == null) {
 			throw new NullPointerException();
 		}
-		
+
 		if (toHold.length >= this.size()) {
-			for ( int i=0 ; i< this.size() ; i++) {
+			for (int i = 0; i < this.size(); i++) {
 				toHold[i] = elements[i];
 			}
 			return toHold;
@@ -185,26 +185,25 @@ public class MyArrayList<E> implements ListADT<E> {
 	public Iterator<E> iterator() {
 		return new MyArrayListIterator();
 	}
-	
+
 	private class MyArrayListIterator implements Iterator<E> {
-        private int currentIndex = 0;
+		private int currentIndex = 0;
 
-        @Override
-        public boolean hasNext() {
-            return currentIndex <= size() - 1;
-        }
+		@Override
+		public boolean hasNext() {
+			return currentIndex <= size() - 1;
+		}
 
-        @Override
-        public E next() throws NoSuchElementException {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            
-            currentIndex++;       
-            
-            return get(currentIndex - 1);
-        }
-    }
+		@Override
+		public E next() throws NoSuchElementException {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
 
+			currentIndex++;
+
+			return get(currentIndex - 1);
+		}
+	}
 
 }

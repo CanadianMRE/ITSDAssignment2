@@ -2,114 +2,162 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.EmptyStackException;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import utilities.MyStack;
-
-
+import utilities.*;
 
 public class MyStackTests {
 
-    private static MyStack<String> stackTest;
+	private MyStack<Integer> stackTest;
 
-    @BeforeClass
-    public static void setUpBeforeClass() {
-    	stackTest = new MyStack<>();
-    }
+	@Before
+	public void setUp() {
+		stackTest = new MyStack<>();
+	}
 
-    @AfterClass
-    public static void tearDownAfterClass() {
-    	stackTest = null;
-    }
+	@Test
+	public void testPush() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		assertEquals(3, stackTest.size());
+	}
 
-    @Before
-    public void setUp() {
-    	stackTest.clear();
-    }
+	@Test
+	public void testPop() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		assertEquals(3, stackTest.pop().intValue());
+		assertEquals(2, stackTest.size());
+	}
 
-    @After
-    public void tearDown() {
-        
-    }
+	@Test(expected = EmptyStackException.class)
+	public void testPopOnEmptyStack() {
+		stackTest.pop();
+	}
 
-    @Test
-    public void testPushAndPop() {
-    	stackTest.push("A");
-    	stackTest.push("B");
-    	stackTest.push("C");
+	@Test
+	public void testPeek() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		assertEquals(3, stackTest.peek().intValue());
+		assertEquals(3, stackTest.size());
+	}
 
-        assertEquals("C", stackTest.pop());
-        assertEquals("B", stackTest.pop());
-        assertEquals("A", stackTest.pop());
-    }
-    
-    @Test
-    public void testPushAndPeek() {
-    	stackTest.push("A");
-    	stackTest.push("B");
-    	stackTest.push("C");
+	@Test(expected = EmptyStackException.class)
+	public void testPeekOnEmptyStack() {
+		stackTest.peek();
+	}
 
-        assertEquals("C", stackTest.peek());
-        assertEquals(3, stackTest.size());
-    }
-    
-    @Test
-    public void testPeek() {
-    	stackTest.push("A");
-    	stackTest.push("B");
-    	stackTest.push("C");
+	@Test
+	public void testClear() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		stackTest.clear();
+		assertEquals(0, stackTest.size());
+		assertTrue(stackTest.isEmpty());
+	}
 
-        assertEquals("C", stackTest.peek());
-        assertEquals(3, stackTest.size());
-    }
+	@Test
+	public void testIsEmpty() {
+		assertTrue(stackTest.isEmpty());
+		stackTest.push(1);
+		assertFalse(stackTest.isEmpty());
+		stackTest.pop();
+		assertTrue(stackTest.isEmpty());
+	}
 
-    @Test
-    public void testIsEmpty() {
-        assertTrue(stackTest.isEmpty());
+	@Test
+	public void testToArray() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		Object[] arr = stackTest.toArray();
+		assertEquals(3, arr.length);
+		assertArrayEquals(new Object[] { 1, 2, 3 }, arr);
+	}
 
-        stackTest.push("A");
+	@Test
+	public void testToArrayWithParameter() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		Integer[] arr = new Integer[3];
+		Integer[] result = stackTest.toArray(arr);
+		assertSame(arr, result);
+		assertArrayEquals(new Integer[] { 3, 2, 1 }, result);
+	}
 
-        assertFalse(stackTest.isEmpty());
+	@Test
+	public void testContains() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		assertTrue(stackTest.contains(2));
+		assertFalse(stackTest.contains(4));
+	}
 
-        stackTest.pop();
+	@Test
+	public void testSearch() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
+		assertEquals(1, stackTest.search(3));
+		assertEquals(2, stackTest.search(2));
+		assertEquals(-1, stackTest.search(4));
+	}
 
-        assertTrue(stackTest.isEmpty());
-    }
+	@Test
+	public void testIterator() {
+		stackTest.push(1);
+		stackTest.push(2);
+		stackTest.push(3);
 
-    @Test
-    public void testSize() {
-        assertEquals(0, stackTest.size());
+		Iterator<Integer> iterator = stackTest.iterator();
+		int count = 3;
 
-        stackTest.push("A");
-        stackTest.push("B");
-        stackTest.push("C");
+		while (iterator.hasNext()) {
+			assertEquals(count--, iterator.next().intValue());
+		}
+	}
 
-        assertEquals(3, stackTest.size());
+	@Test
+	public void testEquals() {
+		MyStack<Integer> otherStack = new MyStack<>();
+		assertTrue(stackTest.equals(otherStack));
 
-        stackTest.pop();
+		stackTest.push(1);
+		assertFalse(stackTest.equals(otherStack));
 
-        assertEquals(2, stackTest.size());
+		otherStack.push(1);
+		assertTrue(stackTest.equals(otherStack));
 
-        stackTest.clear();
+		otherStack.push(2);
+		otherStack.push(3);
+		assertFalse(stackTest.equals(otherStack));
 
-        assertEquals(0, stackTest.size());
-    }
-    @Test
-    public void testClear() {
-    	stackTest.push("A");
-    	stackTest.push("B");
-    	stackTest.push("C");
+		otherStack.pop();
+		assertFalse(stackTest.equals(otherStack));
+	}
 
-    	stackTest.clear();
+	@Test
+	public void testSize() {
+		assertEquals(0, stackTest.size());
+		stackTest.push(1);
+		stackTest.push(2);
+		assertEquals(2, stackTest.size());
+		stackTest.pop();
+		assertEquals(1, stackTest.size());
+	}
 
-        assertTrue(stackTest.isEmpty());
-        assertEquals(0, stackTest.size());
-    }
-
-
+	@After
+	public void tearDown() {
+		stackTest = null;
+	}
 }
-

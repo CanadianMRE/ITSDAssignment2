@@ -2,20 +2,18 @@ package utilities;
 
 import java.io.Serializable;
 
-public class MyDLLNode<E> implements Serializable{
+public class MyDLLNode<E> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private E element;
 	private MyDLLNode<E> next;
 	private MyDLLNode<E> prev;
-	
-	public MyDLLNode(E element)
-	{
-		this.element = element;
+
+	public MyDLLNode(E element) {
+		this.setElement(element);
 	}
 
-	
 	public E getElement() {
 		return element;
 	}
@@ -24,12 +22,10 @@ public class MyDLLNode<E> implements Serializable{
 		this.element = element;
 	}
 
-	
 	public MyDLLNode<E> getNext() {
 		return next;
 	}
 
-	
 	public void setNext(MyDLLNode<E> next) {
 		this.next = next;
 	}
