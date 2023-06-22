@@ -98,17 +98,96 @@ public class MyDLLTests {
 		assertEquals(Integer.valueOf(10), removed);
 		assertEquals(Integer.valueOf(20), dll.get(0));
 	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testRemoveAtIndexEmpty() {
+		dll.remove(0);
+	}
+
+	@Test
+	public void testRemoveAtMiddleIndex() {
+		dll.add(10);
+		dll.add(20);
+		dll.add(30);
+
+		Integer removed = dll.remove(1);
+
+		assertEquals(2, dll.size());
+		assertEquals(Integer.valueOf(20), removed);
+		assertEquals(Integer.valueOf(10), dll.get(0));
+	}
+
+	@Test
+	public void testRemoveAtIndex2() {
+		dll.add(10);
+		dll.add(20);
+
+		Integer removed = dll.remove(1);
+
+		assertEquals(1, dll.size());
+		assertEquals(Integer.valueOf(20), removed);
+		assertEquals(Integer.valueOf(10), dll.get(0));
+	}
+
+	@Test
+	public void testRemoveAtIndexOneVal() {
+		dll.add(10);
+
+		Integer removed = dll.remove(0);
+
+		assertEquals(0, dll.size());
+		assertEquals(Integer.valueOf(10), removed);
+	}
 
 	@Test
 	public void testRemoveByValue() {
 		dll.add(10);
 		dll.add(20);
-
+		
 		Integer removed = dll.remove(Integer.valueOf(10));
 
 		assertEquals(1, dll.size());
 		assertEquals(Integer.valueOf(10), removed);
 		assertEquals(Integer.valueOf(20), dll.get(0));
+		
+		Integer removed2 = dll.remove(Integer.valueOf(20));
+		assertEquals(0, dll.size());
+		assertEquals(Integer.valueOf(20), removed2);
+	}
+
+	@Test
+	public void testRemoveByValueEnd() {
+		dll.add(10);
+		dll.add(20);
+		
+		Integer removed = dll.remove(Integer.valueOf(20));
+
+		assertEquals(1, dll.size());
+		assertEquals(Integer.valueOf(20), removed);
+		assertEquals(Integer.valueOf(10), dll.get(0));
+	}
+
+	@Test
+	public void testRemoveBigByValue() {
+		dll.add(10);
+		dll.add(20);
+		dll.add(30);
+		
+		Integer removed = dll.remove(Integer.valueOf(20));
+
+		assertEquals(2, dll.size());
+		assertEquals(Integer.valueOf(20), removed);
+		assertEquals(Integer.valueOf(10), dll.get(0));
+	}
+
+	@Test
+	public void testRemoveOneByValue() {
+		dll.add(10);
+		
+		Integer removed = dll.remove(Integer.valueOf(10));
+
+		assertEquals(0, dll.size());
+		assertEquals(Integer.valueOf(10), removed);
 	}
 	
 	@Test
@@ -128,6 +207,18 @@ public class MyDLLTests {
 		assertEquals(2, dll.size());
 		assertEquals(Integer.valueOf(10), replaced);
 		assertEquals(Integer.valueOf(30), dll.get(0));
+	}
+
+	@Test
+	public void testSetEnd() {
+		dll.add(10);
+		dll.add(20);
+
+		Integer replaced = dll.set(1, 30);
+
+		assertEquals(2, dll.size());
+		assertEquals(Integer.valueOf(20), replaced);
+		assertEquals(Integer.valueOf(30), dll.get(1));
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -165,6 +256,17 @@ public class MyDLLTests {
 		assertArrayEquals(new Integer[] { 10, 20 }, result);
 	}
 
+	@Test
+	public void testToArrayTooSmall() {
+		dll.add(10);
+		dll.add(20);
+
+		Integer[] arr = new Integer[1];
+		Object[] result = dll.toArray(arr);
+		
+		assertArrayEquals(new Object[] { 10, 20 }, result);
+	}
+
 	@Test(expected = NullPointerException.class)
 	public void testToArrayWithNullParameter() {
 		dll.toArray(null);
@@ -179,9 +281,30 @@ public class MyDLLTests {
 
 		assertArrayEquals(new Object[] { 10, 20 }, result);
 	}
+	
+	@Test
+	public void testAddEmptyIndex() {
+		dll.add(10);
+		dll.add(20);
+		dll.add(30);
+		
+		dll.add(1, 40);
+
+		assertEquals(Integer.valueOf(40), dll.get(1));
+	}
 
 	@Test(expected = NoSuchElementException.class)
 	public void testIteratorNoSuchElementException() {
 		dll.iterator().next();
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void testNodeIteratorNoSuchElementException() {
+		dll.nodeIterator().next();
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testGetNodeAtIndexException() {
+		dll.getNodeAtIndex(0);
 	}
 }

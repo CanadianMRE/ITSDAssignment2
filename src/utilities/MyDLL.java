@@ -33,33 +33,16 @@ public class MyDLL<E> implements ListADT<E> {
 
 	@Override
 	public boolean add(int index, E toAdd) throws NullPointerException, IndexOutOfBoundsException {
-		System.out.println("\nIndex " + index);
-		System.out.println("Size " + this.size());
-		
-		System.out.println("Trying to add " + toAdd + " to the list");
-		
-		System.out.println("B");
-		System.out.println(Arrays.toString(this.toArray()));
 		
 		if (index > this.size()) {
 			throw new IndexOutOfBoundsException();
 		} else if (index == this.size()) {
-			System.out.println("Appended to end of list " + toAdd);
 			return add(toAdd);
-		} else if (index == 0) {
-			System.out.println("Appended to start of list " + toAdd);
-			MyDLLNode<E> newNode = new MyDLLNode<E>(toAdd);
-
-			newNode.setNext(head);
-			head.setPrev(newNode);
-
-			head = newNode;
 		} else {
-			System.out.println("Inserted into middle of list " + toAdd);
 			MyDLLNode<E> newNode = new MyDLLNode<E>(toAdd);
 
-			MyDLLNode<E> next = this.getNodeAtIndex(index + 1);
-			MyDLLNode<E> prev = this.getNodeAtIndex(index);
+			MyDLLNode<E> next = this.getNodeAtIndex(index);
+			MyDLLNode<E> prev = this.getNodeAtIndex(index - 1);
 
 			newNode.setNext(next);
 			next.setPrev(newNode);
@@ -68,9 +51,6 @@ public class MyDLL<E> implements ListADT<E> {
 		}
 
 		size++;
-		
-		System.out.println("After");
-		System.out.println(Arrays.toString(this.toArray()));
 
 		return true;
 	}
@@ -78,12 +58,13 @@ public class MyDLL<E> implements ListADT<E> {
 	@Override
 	public boolean add(E toAdd) throws NullPointerException {
 		MyDLLNode<E> newNode = new MyDLLNode<E>(toAdd);
-
+		
 		if (head == null) {
 			head = newNode;
 		}
 
 		if (tail != null) {
+			tail.setNext(newNode);
 			newNode.setPrev(tail);
 		}
 		tail = newNode;
@@ -100,7 +81,6 @@ public class MyDLL<E> implements ListADT<E> {
 
 		while (iterator.hasNext()) {
 			E next = iterator.next();
-			System.out.println("Next in iter " + next);
 			this.add(next);
 		}
 
@@ -111,96 +91,83 @@ public class MyDLL<E> implements ListADT<E> {
 	public E get(int index) throws IndexOutOfBoundsException {
 		MyDLLNode<E> node = this.getNodeAtIndex(index);
 
-		if (node != null) {
-			return node.getElement();
-		}
-
-		return null;
+		return node.getElement();
 	}
 
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
+		
 		MyDLLNode<E> old = this.getNodeAtIndex(index);
-		
-		System.out.println("removing index at " + index);
-		System.out.println("Size " + size);
-		
-		System.out.println("Before");
-		System.out.println(Arrays.toString(this.toArray()));
-
-		if (old != null) {
 			
-			MyDLLNode<E> next = old.getNext();
-			MyDLLNode<E> prev = old.getPrev();
-			
-			if (next == null && prev == null) {
-				System.out.println("Nothing ahead or behind. Remove head and tail");
-				head = null;
-				tail = null;
-			} else if (next == null) {
-				System.out.println("Nothing ahead. This is the tail");
-				tail = prev;
-			} else if (prev == null) {
-				System.out.println("Nothing behind. This is the eadh");
-				head = next;
-			} else {
-				System.out.println("Merging empty middle");
-				next.setPrev(prev);
-				prev.setNext(next);
-			}
-
-			size--;
-			
-			System.out.println("After");
-			System.out.println(Arrays.toString(this.toArray()));
-
-			return old.getElement();
-		}
-
-		return null;
-	}
-
-	@Override
-	public E remove(E toRemove) throws NullPointerException {
-		MyDLLNode<E> currentNode = head;
-		E oldNode = null;
-
-		System.out.println();
+		MyDLLNode<E> next = old.getNext();
+		MyDLLNode<E> prev = old.getPrev();
 		
-		int i = 0;
-		while (i < this.size()) {
-			
-			if (currentNode.getElement().equals(toRemove)) {
-				oldNode = this.remove(i);
-				
-				break;
-			} else {
-				currentNode = currentNode.getNext();
-			}
-			i++;
-		}
-		
-		if (oldNode == null) {
-			return null;
+		if (next == null && prev == null) {
+			head = null;
+			tail = null;
+		} else if (next == null) {
+			tail = prev;
+			prev.setNext(null);
+		} else if (prev == null) {
+			head = next;
+			next.setPrev(null);
+		} else {
+			next.setPrev(prev);
+			prev.setNext(next);
 		}
 
 		size--;
 
-		return oldNode;
+		return old.getElement();
+	}
+
+	@Override
+	public E remove(E toRemove) throws NullPointerException {
+		E oldElement = null;
+		
+		Iterator<MyDLLNode<E>> iter = new MyDLLIteratorForNodes();
+		
+		while (iter.hasNext()) {
+			MyDLLNode<E> nextIter = iter.next();
+			
+			if (nextIter.getElement().equals(toRemove)) {
+
+				MyDLLNode<E> next = nextIter.getNext();
+				MyDLLNode<E> prev = nextIter.getPrev();
+				
+				if (next == null && prev == null) {
+					head = null;
+					tail = null;
+				} else if (next == null) {
+					tail = prev;
+					prev.setNext(null);
+				} else if (prev == null) {
+					head = next;
+					next.setPrev(null);
+				} else {
+					next.setPrev(prev);
+					prev.setNext(next);
+				}
+
+				size--;
+				
+				oldElement = nextIter.getElement();
+				
+				break;
+			}
+		}
+
+		return oldElement;
 	}
 
 	@Override
 	public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
-		if (index >= this.size() - 1) {
+		if (index > this.size() - 1) {
 			throw new IndexOutOfBoundsException();
 		}
 
 		MyDLLNode<E> nodeAtIndex = this.getNodeAtIndex(index);
 		MyDLLNode<E> newNode = new MyDLLNode<E>(toChange);
-
-		if (nodeAtIndex == null) {
-			throw new NullPointerException();
-		}
 
 		MyDLLNode<E> next = nodeAtIndex.getNext();
 		MyDLLNode<E> prev = nodeAtIndex.getPrev();
@@ -219,7 +186,7 @@ public class MyDLL<E> implements ListADT<E> {
 			newNode.setPrev(prev);
 		}
 
-		return null;
+		return nodeAtIndex.getElement();
 	}
 
 	@Override
@@ -229,7 +196,7 @@ public class MyDLL<E> implements ListADT<E> {
 
 	@Override
 	public boolean contains(E toFind) throws NullPointerException {
-		Iterator<E> iter = new MyDLLIterator();
+		Iterator<E> iter = this.iterator();
 
 		while (iter.hasNext()) {
 			E next = iter.next();
@@ -248,7 +215,7 @@ public class MyDLL<E> implements ListADT<E> {
 		}
 
 		if (toHold.length >= this.size()) {
-			Iterator<E> iter = new MyDLLIterator();
+			Iterator<E> iter = this.iterator();
 
 			int i = 0;
 			while (iter.hasNext()) {
@@ -267,7 +234,8 @@ public class MyDLL<E> implements ListADT<E> {
 
 	@Override
 	public E[] toArray() {
-		Iterator<E> iter = new MyDLLIterator();
+		Iterator<E> iter = this.iterator();
+		
 		@SuppressWarnings("unchecked")
 		E[] toHold = (E[]) new Object[size];
 
@@ -285,15 +253,27 @@ public class MyDLL<E> implements ListADT<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		return new MyDLLIterator();
+		return new MyDLLIteratorForElements();
 	}
 
-	private class MyDLLIterator implements Iterator<E> {
-		private int currentIndex = 0;
+	public Iterator<MyDLLNode<E>> nodeIterator() {
+		return new MyDLLIteratorForNodes();
+	}
+
+	private class MyDLLIteratorForElements implements Iterator<E> {
+		private MyDLLNode<E> currentNode;
+		
+		public MyDLLIteratorForElements() {
+			currentNode = head;
+		}
 
 		@Override
 		public boolean hasNext() {
-			return currentIndex <= size() - 1;
+			if (currentNode == null) {
+				return false;
+			}
+			
+			return true;
 		}
 
 		@Override
@@ -301,41 +281,68 @@ public class MyDLL<E> implements ListADT<E> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
+			
+			MyDLLNode<E> thisNode = currentNode;
+			currentNode = thisNode.getNext();
 
-			currentIndex++;
+			return thisNode.getElement();
+		}
+	}
+	
+	private class MyDLLIteratorForNodes implements Iterator<MyDLLNode<E>> {
+		private MyDLLNode<E> currentNode;
+		
+		public MyDLLIteratorForNodes() {
+			currentNode = head;
+		}
 
-			return get(currentIndex - 1);
+
+		@Override
+		public boolean hasNext() {
+			if (currentNode == null) {
+				return false;
+			}
+			
+			return true;
+		}
+
+		@Override
+		public MyDLLNode<E> next() throws NoSuchElementException {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			
+			MyDLLNode<E> thisNode = currentNode;
+			currentNode = thisNode.getNext();
+
+			return thisNode;
 		}
 	}
 
-	private MyDLLNode<E> getNodeAtIndex(int index) throws IndexOutOfBoundsException {
-		if (index == 0) {
+	public MyDLLNode<E> getNodeAtIndex(int index) throws IndexOutOfBoundsException {
+		if (index >= this.size()) {
+			throw new IndexOutOfBoundsException();
+		} else if (index == 0) {
 			return head;
 		} else if (index == this.size() - 1) {
 			return tail;
-		} else if (index >= this.size() - 1) {
-			throw new IndexOutOfBoundsException();
 		}
 
-		if (head == null) {
-			return null;
-		}
-
-		MyDLLNode<E> currentNode = head;
-		MyDLLNode<E> goalNode = null;
-
+		Iterator<MyDLLNode<E>> iter = new MyDLLIteratorForNodes();
+		MyDLLNode<E> myNode = null;
+		
 		int i = 0;
-		while (i < index) {
+		while (iter.hasNext()) {
+			MyDLLNode<E> next = iter.next();
+			
+			if (i == index) {
+				myNode = next;
+				break;
+			}
 			i++;
-
-			currentNode = currentNode.getNext();
 		}
 
-		if (currentNode != null) {
-			goalNode = currentNode;
-		}
-
-		return goalNode;
+		return myNode;
 	}
 
 }
