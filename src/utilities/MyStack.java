@@ -66,9 +66,6 @@ public class MyStack<E> implements StackADT<E> {
 		for (int i = 0; i < stackList.size(); i++) {
 			holder[i] = stackList.get(stackList.size() - 1 - i);
 		}
-		if (holder.length > stackList.size()) {
-			holder[stackList.size()] = null;
-		}
 		return holder;
 	}
 
