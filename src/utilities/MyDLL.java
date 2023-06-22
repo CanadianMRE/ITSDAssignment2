@@ -106,47 +106,152 @@ public class MyDLL<E> implements ListADT<E> {
 
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
+		MyDLLNode<E> old = this.getNodeAtIndex(index);
+		
+		if (old != null) {
+			MyDLLNode<E> next = old.getNext();
+			MyDLLNode<E> prev = old.getPrev();
+			
+			if (next == null && prev == null) {
+				head = null;
+				tail = null;
+			} else if (next == null) {
+				tail = prev;
+			} else if (prev == null) {
+				head = next;
+			} else {
+				next.setPrev(prev);
+				prev.setNext(next);
+			}
+			
+			return old.getElement();
+		}
+		
+		size--;
+		 
 		return null;
 	}
 
 	@Override
 	public E remove(E toRemove) throws NullPointerException {
-		// TODO Auto-generated method stub
+		Iterator<E> iter = new MyDLLIterator();
+		
+		while (iter.hasNext()) {
+			@SuppressWarnings("unchecked")
+			MyDLLNode<E> nextCell = (MyDLLNode<E>) iter.next();
+			
+			if (nextCell.getElement().equals(toRemove)) {
+				MyDLLNode<E> next = nextCell.getNext();
+				MyDLLNode<E> prev = nextCell.getPrev();
+				
+				next.setPrev(prev);
+				prev.setNext(next);
+				
+				return next.getElement();
+			}
+		}
+		
+		size--;
+		
 		return null;
 	}
 
 	@Override
 	public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
+		if (index >= this.size() - 1) {
+			throw new IndexOutOfBoundsException();
+		}
+		
 		MyDLLNode<E> nodeAtIndex = this.getNodeAtIndex(index);
+		MyDLLNode<E> newNode = new MyDLLNode<E>(toChange);
 		
+		if (nodeAtIndex == null) {
+			throw new NullPointerException();
+		}
+
+		MyDLLNode<E> next = nodeAtIndex.getNext();
+		MyDLLNode<E> prev = nodeAtIndex.getPrev();
 		
-		// TODO Auto-generated method stub
+		if (next == null) {
+			tail = newNode;
+		} else {
+			nodeAtIndex.setNext(null);
+			newNode.setNext(next);
+		}
+		
+		if (prev == null) {
+			head = newNode;
+		} else {
+			nodeAtIndex.setPrev(null);
+			newNode.setPrev(prev);
+		}
+
 		return null;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size() == 0;
 	}
 
 	@Override
 	public boolean contains(E toFind) throws NullPointerException {
-		// TODO Auto-generated method stub
+		Iterator<E> iter = new MyDLLIterator();
+		
+		while (iter.hasNext()) {
+			@SuppressWarnings("unchecked")
+			MyDLLNode<E> next = (MyDLLNode<E>) iter.next();
+			
+			if (next.getElement().equals(toFind)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public E[] toArray(E[] toHold) throws NullPointerException {
-		// TODO Auto-generated method stub
-		return null;
+		if (toHold == null) {
+			throw new NullPointerException();
+		}
+		
+		if (toHold.length >= this.size()) {
+			Iterator<E> iter = new MyDLLIterator();
+			
+			int i = 0;
+			while (iter.hasNext()) {
+				@SuppressWarnings("unchecked")
+				MyDLLNode<E> next = (MyDLLNode<E>) iter.next();
+
+				toHold[i] = next.getElement();
+				
+				i++;
+			}
+			
+			return toHold;
+		} else {
+			return toArray();
+		}
 	}
 
 	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+	public E[] toArray() {
+		Iterator<E> iter = new MyDLLIterator();
+		@SuppressWarnings("unchecked")
+		E[] toHold = (E[]) new Object[size];
+		
+		
+		int i = 0;
+		while (iter.hasNext()) {
+			@SuppressWarnings("unchecked")
+			MyDLLNode<E> next = (MyDLLNode<E>) iter.next();
+
+			toHold[i] = next.getElement();
+			
+			i++;
+		}
+		
+		return toHold;
 	}
 	
 	@Override
