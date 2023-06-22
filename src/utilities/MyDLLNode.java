@@ -10,15 +10,13 @@ public class MyDLLNode<E> implements Serializable{
 	private MyDLLNode<E> next;
 	private MyDLLNode<E> prev;
 	
-	public MyDLLNode(E element, MyDLLNode<E> prev, MyDLLNode<E> next)
+	public MyDLLNode(E element)
 	{
 		this.element = element;
-		this.prev = prev;
-		this.next = next;
 	}
 
 	
-	public Object getElement() {
+	public E getElement() {
 		return element;
 	}
 

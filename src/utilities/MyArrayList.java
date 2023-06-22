@@ -72,12 +72,9 @@ public class MyArrayList<E> implements ListADT<E> {
 	public boolean addAll(ListADT<? extends E> toAdd) throws NullPointerException {
 		@SuppressWarnings("unchecked")
 		Iterator<E> iterator = (Iterator<E>) toAdd.iterator();
-		 
-		System.out.println("Starting iter");
 		
         while (iterator.hasNext()) {
         	E next = iterator.next();
-        	System.out.println(next);
         	this.add(next);
         }
 		System.out.println("done iter");
