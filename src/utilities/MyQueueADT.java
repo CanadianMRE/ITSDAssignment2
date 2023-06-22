@@ -18,7 +18,7 @@ import java.io.*;
  * @author Don Heninger & Dave Watson
  * Comments rewritten by Group 7
  */
-public interface QueueADT<E> extends Serializable
+public interface MyQueueADT<E> extends Serializable
 {
 	/**
 	 * Enqueue adds the last item to the last position in the que.
@@ -72,7 +72,7 @@ public interface QueueADT<E> extends Serializable
 	 * @param that the Queue ADT to be compared to this queue.
 	 * @return <code>true</code> if the queues are equal.
 	 */
-	public boolean equals( QueueADT<E> that );
+	public boolean equals( MyQueueADT<E> that );
 	
 	/**
 	 *This method returns an array that includes all the elements in this list, following their proper sequence. 
