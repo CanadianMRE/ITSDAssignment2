@@ -28,7 +28,6 @@ public class MyQueue<E> implements QueueADT<E> {
 		if (toAdd == null) {
 			throw new NullPointerException();
 		}
-		System.out.println(maxSize);
 		if(adjustable) {
 			queueList.add(toAdd);
 		}else if(maxSize>this.size()) {

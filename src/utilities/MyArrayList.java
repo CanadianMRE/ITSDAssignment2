@@ -76,7 +76,6 @@ public class MyArrayList<E> implements ListADT<E> {
 			E next = iterator.next();
 			this.add(next);
 		}
-		System.out.println("done iter");
 
 		return true;
 	}
