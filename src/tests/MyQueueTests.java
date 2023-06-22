@@ -4,8 +4,11 @@ import exceptions.EmptyQueueException;
 import org.junit.Before;
 import org.junit.Test;
 import utilities.*;
+import exceptions.exceedQueueSizeException;
 
 import static org.junit.Assert.*;
+
+import java.util.NoSuchElementException;
 
 public class MyQueueTests {
 
@@ -23,6 +26,14 @@ public class MyQueueTests {
 		assertFalse(queueTest.isEmpty());
 		assertEquals(1, queueTest.size());
 	}
+	
+	@Test(expected = exceedQueueSizeException.class)
+    public void addFull() {
+        MyQueue<Integer> queue = new MyQueue<>(1);
+        queue.enqueue(1);
+        queue.enqueue(2);
+    }
+
 
 	@Test(expected = NullPointerException.class)
 	public void testEnqueueWithNull() {
@@ -73,6 +84,7 @@ public class MyQueueTests {
 		assertFalse(queueTest.isEmpty());
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEquals() {
 		MyQueue<Integer> otherQueue = new MyQueue<>();
@@ -90,6 +102,33 @@ public class MyQueueTests {
 
 		otherQueue.dequeue();
 		assertFalse(queueTest.equals(otherQueue));
+		
+		MyQueue<Integer> queue1 = new MyQueue<>();
+        assertTrue(queue1.equals(queue1));
+        
+        MyQueue<Integer> queue2 = new MyQueue<>();
+        String notQueue = "Not a queue";
+        assertFalse(queue2.equals(notQueue));
+        
+        MyQueue<Integer> queue = new MyQueue<>();
+        assertFalse(queue.equals(null));
+        
+      
+	}
+	
+	@Test
+	public void testNotEqual(){
+		 MyQueue<Integer> queue3 = new MyQueue<>();
+	        queue3.enqueue(1);
+	        queue3.enqueue(2);
+	        queue3.enqueue(3);
+
+	        MyQueue<Integer> queue4 = new MyQueue<>();
+	        queue4.enqueue(1);
+	        queue4.enqueue(5);
+	        queue4.enqueue(3);
+
+	        assertFalse(queue3.equals(queue4));
 	}
 
 	@Test
@@ -114,6 +153,23 @@ public class MyQueueTests {
 	}
 
 	@Test
+    public void testIsFull_QueueNotFull() {
+        MyQueue<Integer> queue = new MyQueue<>(5);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        assertFalse(queue.isFull());
+    }
+
+    @Test
+    public void testIsFull_QueueFull() {
+        MyQueue<Integer> queue = new MyQueue<>(3);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        assertTrue(queue.isFull());
+    }
+    
+	@Test
 	public void testSize() {
 		assertEquals(0, queueTest.size());
 		queueTest.enqueue(1);
@@ -135,5 +191,10 @@ public class MyQueueTests {
 			Integer element = iterator.next();
 			assertEquals(count++, element.intValue());
 		}
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void testNext() {
+		queueTest.iterator().next();
 	}
 }
