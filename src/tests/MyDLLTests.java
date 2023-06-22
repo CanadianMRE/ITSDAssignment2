@@ -3,11 +3,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import utilities.Iterator;
 import utilities.MyDLL;
 
 import static org.junit.Assert.assertEquals;

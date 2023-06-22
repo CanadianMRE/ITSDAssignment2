@@ -1,6 +1,5 @@
 package utilities;
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class MyDLL<E> implements ListADT<E> {
