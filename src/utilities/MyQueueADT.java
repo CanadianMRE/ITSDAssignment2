@@ -4,17 +4,14 @@ import exceptions.EmptyQueueException;
 import java.io.*;
 
 /**
- * This is the professional Queue Interface for Advanced Object Oriented
- * Programming (CRPG 311) at SAIT Polytechnic. This Queue embodies all the
- * standard Queue operations, and includes several helper methods that will give
- * the data structure more flexibility and use.
+ * This Queue incorporates all the standard Queue operations, including methods to help flexibility and usage
  * 
- * Created On: June 4, 2004 Updated On: Dec. 3, 2010 Updated On: Nov 15, 2018 by
- * kitty
+ * Created On: June 21,2023
  * 
  * Queue.java
  * 
- * @author Don Heninger & Dave Watson Comments rewritten by Group 7
+ * @author Group 7
+ * @version 1.0
  */
 public interface MyQueueADT<E> extends Serializable {
 	/**
