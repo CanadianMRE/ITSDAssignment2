@@ -12,7 +12,8 @@ public class XMLParser {
         errorQueue = new MyQueue<>();
     }
 
-    public void parseXML(String filePath) {
+    public void parseXML(String fileName) {
+        String filePath = "res\\" + fileName;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -48,8 +49,6 @@ public class XMLParser {
     }
 
     private void processClosingTag(String tag) {
-    	
-    	
         if (tagStack.isEmpty()) {
             errorQueue.enqueue("</" + tag + "> tag has no matching opening tag.");
         } else {
