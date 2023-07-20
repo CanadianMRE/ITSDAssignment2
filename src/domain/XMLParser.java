@@ -38,23 +38,29 @@ public class XMLParser {
     }
 
     private void processLine(String line) {
+        // Check if the line starts with a processing instruction (<?) and ends with (?>)
         if (line.startsWith("<?") && line.endsWith("?>")) {
             parsedFileQueue.enqueue(line);
-        } else if (line.startsWith("<")) {
+        }
+        // Check if the line starts with a "<" indicating a tag
+        else if (line.startsWith("<")) {
             int startIndex = 0;
             int openingBracketIndex = line.indexOf('<', startIndex);
             int closingBracketIndex = line.indexOf('>', openingBracketIndex);
             
             while (openingBracketIndex >= 0 && closingBracketIndex >= 0) {
+                // Extract the tag between the opening and closing brackets
                 String tag = line.substring(openingBracketIndex + 1, closingBracketIndex).trim();
                 if (tag.startsWith("/")) {
+                    // Process the closing tag
                     processEndTag(tag.substring(1).trim());
                 } else if (tag.endsWith("/")) {
+                    // Process the self-closing tag
                     processSelfClosingTag(tag.substring(0, tag.length() - 1).trim());
                 } else {
+                    // Process the start tag
                     processStartTag(tag);
                 }
-                
                 
                 startIndex = closingBracketIndex + 1;
                 openingBracketIndex = line.indexOf('<', startIndex);
@@ -62,7 +68,9 @@ public class XMLParser {
             }
             
             parsedFileQueue.enqueue(line);
-        } else {
+        }
+        // Any other line is considered an error
+        else {
             errorQueue.enqueue(line);
             parsedFileQueue.enqueue(line);
         }
@@ -75,22 +83,25 @@ public class XMLParser {
     	System.out.println("self closing tag " + tag);
     }
     private void processStartTag(String tag) {
-    	System.out.println("start tag " + tag);
-    	if(tag.endsWith(">")) {
-    		errorQueue.enqueue("<"+tag+"> the tag has a extra > symbol when opening the tag");
-    	}
-    	
+        System.out.println("start tag " + tag);
+        // Check if the start tag has an extra ">" symbol when opening the tag
+        if(tag.endsWith(">")) {
+            errorQueue.enqueue("<"+tag+"> the tag has an extra > symbol when opening the tag");
+        }
+        
+        // Check if the start tag has attributes by searching for a space
         if (tag.contains(" ")) {
             // Start tag has attributes, extract the tag name without attributes
             int spaceIndex = tag.indexOf(" ");
             tag = tag.substring(0, spaceIndex);
         }
+        // Push the tag onto the tagStack
         tagStack.push(tag);
-        
     }
 
+
     private void processEndTag(String tag) {
-    	System.out.println("end tag " + tag);
+        System.out.println("end tag " + tag);
         if (tagStack.isEmpty()) {
             errorQueue.enqueue("</" + tag + "> tag has no matching opening tag.");
         } else {
@@ -98,7 +109,7 @@ public class XMLParser {
             if (!topTag.equalsIgnoreCase(tag)) {
                 // Check if the closing tag matches the expected opening tag
                 if (tagStack.contains(tag)) {
-                    // Process extraneous tags
+                    // Process extra tags
                     while (!tagStack.isEmpty() && !tagStack.peek().equalsIgnoreCase(tag)) {
                         String extraTag = tagStack.pop();
                         extrasQueue.enqueue(extraTag);
@@ -116,18 +127,27 @@ public class XMLParser {
             }
         }
     }
+
     
     private void matchRemainingTags() {
+        // Loop while the tagStack is not empty
         while (!tagStack.isEmpty()) {
+            // Pop a tag from the tagStack and assign it to the tag variable
             String tag = tagStack.pop();
+            // Enqueue an error message to the errorQueue indicating that the tag is extra and does not have a matching closing tag
             errorQueue.enqueue("<" + tag + "> tag is extra and does not have a matching closing tag.");
         }
 
+        // Loop while the extrasQueue is not empty
         while (!extrasQueue.isEmpty()) {
+            // Dequeue a tag from the extrasQueue and assign it to the tag variable
             String tag = extrasQueue.dequeue();
+            // Enqueue an error message to the errorQueue indicating that the tag is not closed properly
             errorQueue.enqueue("<" + tag + "> tag is not closed properly.");
         }
     }
+
+
 
     private void printErrors() {
         if (errorQueue.isEmpty()) {
