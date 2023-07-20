@@ -12,6 +12,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Handles testing for MyDLL
+ * 
+ * @author Jaymen
+ *
+ */
 public class MyDLLTests {
 
 	private MyDLL<Integer> dll;

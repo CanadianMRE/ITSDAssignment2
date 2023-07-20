@@ -12,6 +12,12 @@ import org.junit.Test;
 
 import utilities.*;
 
+/**
+ * Tests for MyStack
+ * 
+ * @author Jaymen
+ *
+ */
 public class MyStackTests {
 
 	private MyStack<Integer> stackTest;

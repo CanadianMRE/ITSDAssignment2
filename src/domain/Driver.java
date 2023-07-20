@@ -1,5 +1,11 @@
 package domain;
 
+/**
+ * The main driver for the XML parser
+ * 
+ * @author Group 7
+ *
+ */
 public class Driver {
 	/**
 	 * 

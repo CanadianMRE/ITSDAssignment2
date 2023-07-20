@@ -10,6 +10,12 @@ import org.junit.Test;
 
 import utilities.MyArrayList;
 
+/**
+ * A test file to handle tests of MyArrayList
+ * 
+ * @author Jaymen
+ *
+ */
 public class MyArrayListTests {
 	private MyArrayList<String> arrayTest;
 

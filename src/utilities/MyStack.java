@@ -4,9 +4,9 @@ import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 /**
+ * Implementation of a stack. Supports all standard operations of a stack.
+ * 
  * @author Jaymen
- *
- * @param <E>
  */
 public class MyStack<E> implements StackADT<E> {
 

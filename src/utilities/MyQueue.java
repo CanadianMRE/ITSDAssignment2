@@ -4,6 +4,13 @@ import java.util.NoSuchElementException;
 import exceptions.EmptyQueueException;
 import exceptions.exceedQueueSizeException;
 
+/**
+ * Implementation for a Queue. Supports all standard operations for a Queue
+ * 
+ * @author Jaymen
+ *
+ * @param <E> - The type of element we want to use
+ */
 public class MyQueue<E> implements QueueADT<E> {
 
 	private static final long serialVersionUID = 1L;

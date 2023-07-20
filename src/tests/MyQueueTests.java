@@ -10,6 +10,12 @@ import static org.junit.Assert.*;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Test for MyQueue
+ * 
+ * @author Jaymen
+ *
+ */
 public class MyQueueTests {
 
 	private MyQueue<Integer> queueTest;
