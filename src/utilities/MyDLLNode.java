@@ -2,6 +2,13 @@ package utilities;
 
 import java.io.Serializable;
 
+/**
+ * Implemenation for a Dynamic Linked List Node
+ * 
+ * @author Group 7
+ *
+ * @param <E> - The type of element we want to use
+ */
 public class MyDLLNode<E> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

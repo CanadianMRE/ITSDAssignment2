@@ -7,8 +7,14 @@ import utilities.MyQueue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 
+
+/**
+ * Implements the parsing and display of a XML file
+ * 
+ * @author Group 7
+ *
+ */
 public class XMLParser {
 	/**
 	 * The tag stack for processed tags
@@ -77,7 +83,6 @@ public class XMLParser {
 					processSelfClosingTag(tag.substring(0, tag.length() - 1).trim(), lineNumber);
 				} else if (line.endsWith(">>")) {
 					tag = line.substring(line.indexOf("<"), line.lastIndexOf(">") + 1);
-					System.out.println("new tag: " + tag);
 					processStartTag(tag, lineNumber);
 				} else {
 					processStartTag(tag, lineNumber);
@@ -115,10 +120,8 @@ public class XMLParser {
 	 */
 	private void processStartTag(String tag, int lineNumber) {
 		if (tag.contains(">")) {
-//			System.out.println("start tag on the process:" + tag);
 			errorQueue.enqueue("Line " + lineNumber + ": " + tag + " tag has an extra > symbol");
 			tag = tag.substring(tag.indexOf("<") + 1, tag.indexOf(" "));
-//			System.out.println("start tag after the process:" + tag);
 		}
 		// Check if the start tag has attributes by searching for a space
 		if (tag.contains(" ")) {
@@ -127,8 +130,6 @@ public class XMLParser {
 			tag = tag.substring(0, spaceIndex);
 
 		}
-
-//		System.out.println("start tag: <" + tag + ">");
 		tagStack.push(tag);
 	}
 
@@ -139,7 +140,6 @@ public class XMLParser {
 	 * @param lineNumber - The line number we are currently on
 	 */
 	private void processEndTag(String tag, int lineNumber) {
-//		System.out.println("end tag: </" + tag + ">");
 		if (tagStack.isEmpty()) {
 			errorQueue.enqueue("Line " + lineNumber + ": </" + tag + "> tag has no matching opening tag.");
 		} else {

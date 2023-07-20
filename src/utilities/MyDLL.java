@@ -2,11 +2,13 @@ package utilities;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Implementation for MyDLL. Supports all standard operations of a Dynamic Linked List
+ * 
+ * @author Group 7
+ */
 public class MyDLL<E> implements ListADT<E> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private MyDLLNode<E> head;

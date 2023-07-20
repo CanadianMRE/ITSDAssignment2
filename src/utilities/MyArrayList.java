@@ -2,6 +2,13 @@ package utilities;
 
 import java.util.NoSuchElementException;
 
+/**
+ * This ArrayList implements all standard ArrayList operations
+ * 
+ * @author Group 7
+ *
+ * @param <E> - Type of object we want to use
+ */
 public class MyArrayList<E> implements ListADT<E> {
 
 	private static final long serialVersionUID = 1L;
