@@ -1,6 +1,11 @@
 package domain;
 
 public class Driver {
+	/**
+	 * 
+	 * 
+	 * @param args - Arguments we start the program with
+	 */
 	public static void main(String[] args) {
 		System.out.println("This program is an XML parser. It reads an XML file, processes its contents, and performs the following tasks:\n" +
 		        "- Checks the validity of XML tags by verifying opening and closing tags.\n" +
@@ -15,9 +20,19 @@ public class Driver {
             		          + "\nyour path means the path in your computer and filename.xml means the name of your filename");
             return;
         }
+        
+        System.out.println("\n");
 
-        String fileName = args[0];
+        String fileName = "";
+        
+        for (int i = 0; i < args.length; i++) {
+        	fileName += args[i] + " ";
+        }
+        
+        fileName = fileName.trim();
+        
         XMLParser parser = new XMLParser();
         parser.parseXML(fileName);
+        
     }
 }

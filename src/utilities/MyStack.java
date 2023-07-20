@@ -3,18 +3,29 @@ package utilities;
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
+/**
+ * @author Jaymen
+ *
+ * @param <E>
+ */
 public class MyStack<E> implements StackADT<E> {
 
 	/**
-	 * 
+	 * Serial version of the UID
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * A Arraylist which uses <E> type
+	 */
 	private MyArrayList<E> stackList;
 
+	/**
+	 * Creates a new stack
+	 */
 	public MyStack() {
 		stackList = new MyArrayList<>();
 	}
-
+	
 	@Override
 	public void push(E toAdd) throws NullPointerException {
 		if (toAdd == null) {
@@ -48,7 +59,7 @@ public class MyStack<E> implements StackADT<E> {
 	public boolean isEmpty() {
 		return stackList.isEmpty();
 	}
-
+	
 	@Override
 	public Object[] toArray() {
 		return stackList.toArray();
@@ -68,7 +79,6 @@ public class MyStack<E> implements StackADT<E> {
 		}
 		return holder;
 	}
-
 	@Override
 	public boolean contains(E toFind) throws NullPointerException {
 		if (toFind == null) {
@@ -76,7 +86,7 @@ public class MyStack<E> implements StackADT<E> {
 		}
 		return stackList.contains(toFind);
 	}
-
+	
 	@Override
 	public int search(E toFind) {
 		for (int i = stackList.size() - 1; i >= 0; i--) {

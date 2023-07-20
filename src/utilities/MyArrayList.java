@@ -4,9 +4,6 @@ import java.util.NoSuchElementException;
 
 public class MyArrayList<E> implements ListADT<E> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private E[] elements;
